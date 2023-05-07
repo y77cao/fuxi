@@ -5,11 +5,16 @@ type AppState = {
   animationAssets: { name: string; image: HTMLImageElement }[];
   openAIClient?: OpenAIClient;
   loading: boolean;
+  rounds: {
+    coinTossResult: number[];
+    iChingResult: number;
+  }[];
 };
 
 const initialState: AppState = {
   animationAssets: [],
   loading: false,
+  rounds: [],
 };
 
 export const appSlice = createSlice({
@@ -20,9 +25,18 @@ export const appSlice = createSlice({
       state.animationAssets = action.payload.animationAssets;
       state.openAIClient = action.payload.openAIClient;
     },
+    roundEnded: (state, action) => {
+      state.rounds = [
+        ...state.rounds,
+        {
+          coinTossResult: action.payload.coinTossResult,
+          iChingResult: 0, // TODO
+        },
+      ];
+    },
   },
 });
 
-export const { preloaded } = appSlice.actions;
+export const { preloaded, roundEnded } = appSlice.actions;
 
 export default appSlice.reducer;

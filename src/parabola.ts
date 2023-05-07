@@ -6,6 +6,7 @@ type Position = {
 type ParabolaOptions = {
   startPos: Position;
   endPos: Position;
+  curvature?: number;
   duration: number;
   startT: number;
 };

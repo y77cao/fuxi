@@ -1,7 +1,6 @@
 import { ANIMATION_SPEED } from "@/constants";
 import { Parabola } from "@/parabola";
 import { store } from "@/redux/store";
-import { projectileTrajectoryWithAngle } from "@/utils";
 
 export enum SIDE {
   FRONT = 0,
@@ -24,6 +23,10 @@ export class Coin {
     this.parabola = parabola;
   }
 
+  setSide(side: SIDE) {
+    this.side = side;
+  }
+
   toss(tframe: number) {
     if (!this.parabola) {
       return false;
@@ -33,12 +36,6 @@ export class Coin {
       1
     );
 
-    console.log({
-      tframe,
-      startT: this.parabola?.startT,
-      duration: this.parabola?.duration,
-      progress,
-    });
     if (progress === 1) {
       return false;
     } else {
@@ -46,10 +43,21 @@ export class Coin {
       this.x = x;
       this.y = y;
 
-      console.log({ x, y });
-
       return true;
     }
+  }
+
+  move(endX: number, endY: number) {
+    const deltaX = endX - this.x;
+    const deltaY = endY - this.y;
+    this.x += 0.1 * deltaX;
+    this.y += 0.1 * deltaY;
+
+    if (this.x >= endX && this.y >= endY) {
+      return false;
+    }
+
+    return true;
   }
 
   render(context: CanvasRenderingContext2D) {
