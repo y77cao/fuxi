@@ -1,18 +1,13 @@
 import Image from "next/image";
 import { useState } from "react";
 import styled from "styled-components";
-import { State as CoinCanvasState } from "./CoinCanvas";
 
-export const TurtleShell = ({
-  setCoinCanvasState,
-}: {
-  setCoinCanvasState: (state: CoinCanvasState) => void;
-}) => {
+export const TurtleShell = ({ tossCoins }: { tossCoins: () => void }) => {
   const [shaking, setShaking] = useState(false);
 
-  const tossCoins = () => {
+  const toss = () => {
     setShaking(false);
-    setCoinCanvasState(CoinCanvasState.THROW);
+    tossCoins();
   };
 
   return (
@@ -23,7 +18,7 @@ export const TurtleShell = ({
         width={100}
         height={100}
         onMouseDown={() => setShaking(true)}
-        onMouseUp={tossCoins}
+        onMouseUp={toss}
         className={shaking ? "shaking" : ""}
       />
     </Container>

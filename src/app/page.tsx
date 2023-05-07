@@ -15,10 +15,6 @@ export default function Home() {
   const [result, setResult] = useState([]);
   const [coinCanvas, setCoinCanvas] = useState<CoinCanvas | null>(null);
 
-  const setCoinCanvasState = (state: CoinCanvasState) => {
-    coinCanvas?.setState(state);
-  };
-
   const canvasRef = React.createRef<HTMLCanvasElement>();
   useEffect(() => {
     const preload = async () => {
@@ -50,11 +46,11 @@ export default function Home() {
     <main>
       <canvas
         id="coin-canvas"
-        width="600"
+        width="1200"
         height="600"
         ref={canvasRef}
       ></canvas>
-      <TurtleShell setCoinCanvasState={setCoinCanvasState} />
+      <TurtleShell tossCoins={() => coinCanvas?.startToss()} />
     </main>
   );
 }

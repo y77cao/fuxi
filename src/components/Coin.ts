@@ -1,4 +1,7 @@
+import { ANIMATION_SPEED } from "@/constants";
+import { Parabola } from "@/parabola";
 import { store } from "@/redux/store";
+import { projectileTrajectoryWithAngle } from "@/utils";
 
 export enum SIDE {
   FRONT = 0,
@@ -8,6 +11,7 @@ export enum SIDE {
 export class Coin {
   x: number;
   y: number;
+  parabola?: Parabola;
   side: SIDE;
 
   constructor(x: number, y: number) {
@@ -16,32 +20,35 @@ export class Coin {
     this.side = SIDE.FRONT;
   }
 
-  toss(dt: number) {
-    // Move the bubble in the direction of the mouse
-    this.player.bubbleX +=
-      dt * ANIMATION_SPEED * Math.cos(degToRad(this.player.bubbleAngle));
-    this.player.bubbleY +=
-      dt * ANIMATION_SPEED * -1 * Math.sin(degToRad(this.player.bubbleAngle));
+  setParabola(parabola: Parabola) {
+    this.parabola = parabola;
+  }
 
-    // Handle left and right collisions with the this.grid
-    if (this.player.bubbleX <= this.grid.x) {
-      // Left edge
-      this.player.bubbleAngle = 180 - this.player.bubbleAngle;
-      this.player.bubbleX = this.grid.x;
-    } else if (
-      this.player.bubbleX + this.grid.tileWidth >=
-      this.grid.x + this.grid.width
-    ) {
-      // Right edge
-      this.player.bubbleAngle = 180 - this.player.bubbleAngle;
-      this.player.bubbleX = this.grid.x + this.grid.width - this.grid.tileWidth;
+  toss(tframe: number) {
+    if (!this.parabola) {
+      return false;
     }
+    const progress = Math.min(
+      (tframe - this.parabola?.startT) / this.parabola?.duration,
+      1
+    );
 
-    // Collisions with the top of the this.grid
-    if (this.player.bubbleY <= this.grid.y) {
-      // Top collision
-      this.player.bubbleY = this.grid.y;
-      return;
+    console.log({
+      tframe,
+      startT: this.parabola?.startT,
+      duration: this.parabola?.duration,
+      progress,
+    });
+    if (progress === 1) {
+      return false;
+    } else {
+      const { x, y } = this.parabola?.calPosition(progress);
+      this.x = x;
+      this.y = y;
+
+      console.log({ x, y });
+
+      return true;
     }
   }
 

@@ -1,3 +1,5 @@
+import { GRAVITY } from "./constants";
+
 export const loadImage = (url: string) =>
   new Promise((resolve, reject) => {
     const img = new Image();
@@ -15,34 +17,35 @@ export const degToRad = (angle: number) => {
   return angle * (Math.PI / 180);
 };
 
-export const GRAVITY = 9.8;
-export const ANIMATION_SPEED = 1000;
-
 export const projectileTrajectoryWithAngle = (
   x: number,
   y: number,
-  speed: number,
+  vx: number,
+  vy: number,
   angle: number,
   step: number
-) => {
+): {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+} => {
   const angleRadians = degToRad(angle);
-  const vx = speed * Math.cos(angleRadians);
-  const vy = speed * Math.sin(angleRadians) * -1;
+  const velocityX = vx * Math.cos(angleRadians);
+  const velocityY = vy * Math.sin(angleRadians);
 
   // Calculate the next position after the time step
-  const nextX = x + vx * step;
-  const nextY = y + vy * step - 0.5 * GRAVITY * step * step;
+  const nextX = x + velocityX * step;
+  const nextY = y + velocityY * -1 * step + 0.5 * GRAVITY * step * step;
 
   // Calculate the new velocities after the time step
-  const newVx = vx;
-  const newVy = vy - GRAVITY * step;
-
-  // Calculate the new speed
-  const newSpeed = Math.sqrt(newVx * newVx + newVy * newVy);
+  const newVx = velocityX;
+  const newVy = velocityY - GRAVITY * step;
 
   return {
     x: nextX,
     y: nextY,
-    speed: newSpeed,
+    vx: newVx,
+    vy: newVy,
   };
 };
