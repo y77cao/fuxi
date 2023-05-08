@@ -10,16 +10,15 @@ export class OpenAIClient {
     this.client = new OpenAIApi(configuration);
   }
 
-  async complete(text: string) {
-    const completion = await this.client.createCompletion({
-      model: "text-davinci-003",
-      prompt: text,
+  async chatCompletion(text: string) {
+    const completion = await this.client.createChatCompletion({
+      model: "gpt-4",
+      messages: [{ role: "user", content: text }],
       temperature: 0.7,
       top_p: 1,
       presence_penalty: 0.6,
-      frequency_penalty: 0.4,
-      max_tokens: 100,
+      frequency_penalty: 0.1,
     });
-    return completion.data.choices[0].text;
+    return completion.data.choices[0].message?.content;
   }
 }

@@ -1,6 +1,6 @@
 import { Coin, SIDE } from "./Coin";
-import { Parabola } from "../parabola";
-import { drawCenterText, randRange } from "@/utils";
+import { Parabola } from "../utils/parabola";
+import { drawCenterText, randRange } from "@/utils/index";
 import { store } from "@/redux/store";
 import { roundEnded } from "@/redux/appReducer";
 
@@ -19,6 +19,7 @@ export class CoinCanvas {
   state: State;
   coins: Coin[];
   displayStartT: number = 0;
+  animationRequestId: number = 0;
 
   lastFrame: number = 0;
 
@@ -47,9 +48,16 @@ export class CoinCanvas {
 
   animate(tframe: number) {
     // TODO cancel animation frame
-    window.requestAnimationFrame(this.animate.bind(this));
+    const animationRequestId = window.requestAnimationFrame(
+      this.animate.bind(this)
+    );
+    this.animationRequestId = animationRequestId;
     this.update(tframe);
     this.render();
+  }
+
+  stopAnimation() {
+    window.cancelAnimationFrame(this.animationRequestId);
   }
 
   startToss() {
@@ -83,7 +91,7 @@ export class CoinCanvas {
         duration,
       });
 
-      const side = Math.round(Math.random()) ? SIDE.FRONT : SIDE.BACK;
+      const side = Math.round(Math.random()) ? SIDE.HEAD : SIDE.TAIL;
 
       coin.setSide(side);
       coin.setParabola(parabola);

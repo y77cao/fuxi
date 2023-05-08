@@ -1,10 +1,10 @@
 import { ANIMATION_SPEED } from "@/constants";
-import { Parabola } from "@/parabola";
+import { Parabola } from "@/utils/parabola";
 import { store } from "@/redux/store";
 
 export enum SIDE {
-  FRONT = 0,
-  BACK,
+  HEAD = 0, // ying
+  TAIL, // yang
 }
 
 export class Coin {
@@ -16,7 +16,7 @@ export class Coin {
   constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
-    this.side = SIDE.FRONT;
+    this.side = SIDE.HEAD;
   }
 
   setParabola(parabola: Parabola) {

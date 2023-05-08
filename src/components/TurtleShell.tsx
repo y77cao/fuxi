@@ -2,11 +2,19 @@ import Image from "next/image";
 import { useState } from "react";
 import styled from "styled-components";
 
-export const TurtleShell = ({ tossCoins }: { tossCoins: () => void }) => {
+export const TurtleShell = ({
+  tossCoins,
+  paused,
+}: {
+  tossCoins: () => void;
+  paused: boolean;
+}) => {
   const [shaking, setShaking] = useState(false);
 
   const toss = () => {
     setShaking(false);
+
+    if (paused) return;
     tossCoins();
   };
 

@@ -1,4 +1,4 @@
-import { GRAVITY } from "./constants";
+import { GRAVITY } from "../constants";
 
 export const loadImage = (url: string) =>
   new Promise((resolve, reject) => {
