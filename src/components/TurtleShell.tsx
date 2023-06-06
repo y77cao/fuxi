@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { useState } from "react";
 import styled from "styled-components";
@@ -35,11 +37,10 @@ export const TurtleShell = ({
 
 const Container = styled.div`
   position: absolute;
-  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   margin: auto;
   width: 100px;
-  height: 100px;
+  height: 130px;
 `;

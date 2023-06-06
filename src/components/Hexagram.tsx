@@ -1,33 +1,57 @@
+"use client";
+
 import Image from "next/image";
 import { randRange } from "@/utils";
+import styled from "styled-components";
 
-const Yao = ({ result }: { result: 0 | 1 }) => {
+const Yao = ({ result }: { result: number }) => {
   const strokeNumber = randRange(1, 3);
   const src = `/brush-stroke-${strokeNumber}.svg`;
-  if (result === 0) {
+  if (result === -1) {
+    return <div></div>;
+  } else if (result === 0) {
     return (
       <div>
-        <Image src={src} alt="yao" width={50} height={20} />
-        <Image src={src} alt="yao" width={50} height={20} />
+        <Image src={src} alt="yao" width={100} height={30} />
+        <Image src={src} alt="yao" width={100} height={30} />
       </div>
     );
-  } else
+  } else {
+    // result === 1
     return (
       <div>
-        <Image src={src} alt="yao" width={100} height={20} />
+        <Image src={src} alt="yao" width={200} height={30} />
       </div>
     );
+  }
 };
 
-export const Hexagram = ({ results }: { results: (0 | 1)[] }) => {
+export const Hexagram = ({
+  results,
+  isCurrent,
+}: {
+  results: (0 | 1)[];
+  isCurrent: boolean;
+}) => {
   // starting bottom to top
 
+  const remaining = 6 - results.length;
   const sequences = results.reverse();
+  const items = [...Array(remaining).fill(-1), ...sequences];
   return (
-    <div>
-      {sequences.map((result, i) => (
+    <Container>
+      {items.map((result, i) => (
         <Yao key={i} result={result} />
       ))}
-    </div>
+      {sequences.length ? <>{isCurrent ? "Current" : "Future"}</> : null}
+    </Container>
   );
 };
+
+const Container = styled.div`
+  margin: 0 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`;

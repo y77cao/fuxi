@@ -1,4 +1,6 @@
-import { ANIMATION_SPEED } from "@/constants";
+"use client";
+
+import { ANIMATION_SPEED, COIN_ASSET_SIZE } from "@/constants";
 import { Parabola } from "@/utils/parabola";
 import { store } from "@/redux/store";
 
@@ -25,6 +27,11 @@ export class Coin {
 
   setSide(side: SIDE) {
     this.side = side;
+  }
+
+  setPos(x: number, y: number) {
+    this.x = x;
+    this.y = y;
   }
 
   toss(tframe: number) {
@@ -65,6 +72,16 @@ export class Coin {
     const { animationAssets } = state.app;
 
     const asset = animationAssets[this.side].image;
-    context.drawImage(asset, 0, 0, 270, 270, this.x, this.y, 32, 32);
+    context.drawImage(
+      asset,
+      0,
+      0,
+      270,
+      270,
+      this.x,
+      this.y,
+      COIN_ASSET_SIZE,
+      COIN_ASSET_SIZE
+    );
   }
 }

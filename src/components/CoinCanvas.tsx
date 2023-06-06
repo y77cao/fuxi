@@ -1,8 +1,11 @@
+"use client";
+
 import { Coin, SIDE } from "./Coin";
 import { Parabola } from "../utils/parabola";
 import { drawCenterText, randRange } from "@/utils/index";
 import { store } from "@/redux/store";
 import { roundEnded } from "@/redux/appReducer";
+import { COIN_ASSET_SIZE } from "@/constants";
 
 export enum State {
   READY,
@@ -25,14 +28,21 @@ export class CoinCanvas {
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
     this.context = canvas.getContext("2d") as CanvasRenderingContext2D;
 
     this.state = State.READY;
     this.coins = [];
 
+    window?.addEventListener("resize", () => this.resize());
+
     for (let i = 0; i < COIN_COUNT; i++) {
       this.coins.push(
-        new Coin(this.canvas.width / 2 + 30, this.canvas.height - 80)
+        new Coin(
+          this.canvas.width / 2 - COIN_ASSET_SIZE / 2,
+          this.canvas.height - 80
+        )
       );
     }
     this.init();
@@ -122,8 +132,8 @@ export class CoinCanvas {
     let ended = true;
     this.coins.forEach((coin) => {
       const inProgress = coin.move(
-        this.canvas.width / 2 + 30,
-        this.canvas.height - 140
+        this.canvas.width / 2 - COIN_ASSET_SIZE / 2,
+        this.canvas.height - 80
       );
       if (inProgress) ended = false;
     });
@@ -140,6 +150,20 @@ export class CoinCanvas {
       }
     } else if (this.state == State.RESET) {
       this.resetCoins(tframe);
+    }
+  }
+
+  resize() {
+    this.canvas.width = window?.innerWidth;
+    this.canvas.height = window?.innerHeight;
+
+    if (this.state === State.READY) {
+      this.coins.forEach((coin) => {
+        coin.setPos(
+          this.canvas.width / 2 - COIN_ASSET_SIZE / 2,
+          this.canvas.height - 80
+        );
+      });
     }
   }
 
