@@ -4,7 +4,7 @@ import { Coin, SIDE } from "./Coin";
 import { Parabola } from "../utils/parabola";
 import { drawCenterText, randRange } from "@/utils/index";
 import { store } from "@/redux/store";
-import { roundEnded } from "@/redux/appReducer";
+import { animationEnded, roundEnded } from "@/redux/appReducer";
 import { COIN_ASSET_SIZE } from "@/constants";
 
 export enum State {
@@ -92,7 +92,7 @@ export class CoinCanvas {
       }
       cache.add(JSON.stringify(endPos));
 
-      const duration = randRange(400, 800);
+      const duration = randRange(300, 500);
 
       const parabola = new Parabola({
         startPos: { x: coin.x, y: coin.y },
@@ -138,6 +138,7 @@ export class CoinCanvas {
           coinTossResult: this.coins.map((coin) => coin.side),
         })
       );
+      store.dispatch(animationEnded());
     }
   }
 
@@ -146,7 +147,7 @@ export class CoinCanvas {
     } else if (this.state == State.THROW) {
       this.tossCoins(tframe);
     } else if (this.state == State.DISPLAY) {
-      if (tframe - this.displayStartT > 3000) {
+      if (tframe - this.displayStartT > 2000) {
         this.setState(State.RESET);
       }
     } else if (this.state == State.RESET) {

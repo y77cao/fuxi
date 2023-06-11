@@ -1,6 +1,133 @@
 const hexagrams =
   "䷁䷗䷆䷒䷎䷣䷭䷊䷏䷲䷧䷵䷽䷶䷟䷡䷇䷂䷜䷻䷦䷾䷯䷄䷬䷐䷮䷹䷞䷰䷛䷪䷖䷚䷃䷨䷳䷕䷑䷙䷢䷔䷿䷥䷷䷝䷱䷍䷓䷩䷺䷼䷴䷤䷸䷈䷋䷘䷅䷉䷠䷌䷫䷀";
 
+const hexagramToNamesEN: Record<string, string> = {
+  "䷀": "The Creative",
+  "䷁": "The Receptive",
+  "䷂": "Difficulty at the Beginning",
+  "䷃": "Youthful Folly",
+  "䷄": "Waiting",
+  "䷅": "Conflict",
+  "䷆": "The Army",
+  "䷇": "Holding Together",
+  "䷈": "Small Taming",
+  "䷉": "Treading",
+  "䷊": "Peace",
+  "䷋": "Standstill",
+  "䷌": "Fellowship",
+  "䷍": "Possession in Great Measure",
+  "䷎": "Modesty",
+  "䷏": "Enthusiasm",
+  "䷐": "Following",
+  "䷑": "Work on What Has Been Spoiled",
+  "䷒": "Approach",
+  "䷓": "Contemplation",
+  "䷔": "Biting Through",
+  "䷕": "Grace",
+  "䷖": "Splitting Apart",
+  "䷗": "Return",
+  "䷘": "Innocence",
+  "䷙": "Taming Power of the Great",
+  "䷚": "The Taming Power of the Small",
+  "䷛": "Progress",
+  "䷜": "Darkening of the Light",
+  "䷝": "The Family",
+  "䷞": "Opposition",
+  "䷟": "Obstruction",
+  "䷠": "Deliverance",
+  "䷡": "Decrease",
+  "䷢": "Increase",
+  "䷣": "Breakthrough",
+  "䷤": "Coming to Meet",
+  "䷥": "Gathering Together",
+  "䷦": "Pushing Upward",
+  "䷧": "Oppression",
+  "䷨": "The Well",
+  "䷩": "Revolution",
+  "䷪": "The Cauldron",
+  "䷫": "The Arousing",
+  "䷬": "The Keeping Still",
+  "䷭": "Development",
+  "䷮": "The Marrying Maiden",
+  "䷯": "Abundance",
+  "䷰": "The Wanderer",
+  "䷱": "The Gentle",
+  "䷲": "The Joyous",
+  "䷳": "Dispersion",
+  "䷴": "Limitation",
+  "䷵": "Inner Truth",
+  "䷶": "Small Preponderance",
+  "䷷": "After Completion",
+  "䷸": "Before Completion",
+};
+
+const hexagramToNamesCN: Record<string, string> = {
+  "䷀": "乾",
+  "䷁": "坤",
+  "䷂": "屯",
+  "䷃": "蒙",
+  "䷄": "需",
+  "䷅": "讼",
+  "䷆": "师",
+  "䷇": "比",
+  "䷈": "小畜",
+  "䷉": "履",
+  "䷊": "泰",
+  "䷋": "否",
+  "䷌": "同人",
+  "䷍": "大有",
+  "䷎": "谦",
+  "䷏": "豫",
+  "䷐": "随",
+  "䷑": "蛊",
+  "䷒": "临",
+  "䷓": "观",
+  "䷔": "噬嗑",
+  "䷕": "贲",
+  "䷖": "剥",
+  "䷗": "复",
+  "䷘": "无妄",
+  "䷙": "大畜",
+  "䷚": "颐",
+  "䷛": "大过",
+  "䷜": "坎",
+  "䷝": "离",
+  "䷞": "咸",
+  "䷟": "恒",
+  "䷠": "遯",
+  "䷡": "大壮",
+  "䷢": "晋",
+  "䷣": "明夷",
+  "䷤": "家人",
+  "䷥": "睽",
+  "䷦": "蹇",
+  "䷧": "解",
+  "䷨": "损",
+  "䷩": "益",
+  "䷪": "夬",
+  "䷫": "姤",
+  "䷬": "萃",
+  "䷭": "升",
+  "䷮": "困",
+  "䷯": "井",
+  "䷰": "革",
+  "䷱": "鼎",
+  "䷲": "震",
+  "䷳": "艮",
+  "䷴": "渐",
+  "䷵": "归妹",
+  "䷶": "丰",
+  "䷷": "旅",
+  "䷸": "巽",
+  "䷹": "兑",
+  "䷺": "涣",
+  "䷻": "节",
+  "䷼": "中孚",
+  "䷽": "小过",
+  "䷾": "既济",
+  "䷿": "未济",
+};
+
 /**
  * 1．三枚铜钱中有两枚正面向上，这是少阳之象，记做“ ━ ”，为阳爻
  * 2．三枚铜钱中只有一枚正面向上，这是少阴之象，记做“ – –  ”，为阴爻
@@ -43,4 +170,17 @@ export const getHexagram = (result: (0 | 1)[]) => {
 
   // Get the corresponding hexagram from the string
   return hexagrams[decimalIndex];
+};
+
+export const getHexagramName = (result: (0 | 1)[]) => {
+  if (result.length !== 6) {
+    throw new Error("Input array must have a size of 6");
+  }
+
+  // Convert the coin toss array to binary and then to decimal
+  const binaryString = result.join("");
+  const decimalIndex = parseInt(binaryString, 2);
+  const hexagram = hexagrams[decimalIndex];
+  // Get the corresponding hexagram from the string
+  return hexagramToNamesEN[hexagram];
 };

@@ -22,7 +22,7 @@ export const TurtleShell = ({
   };
   const toss = () => {
     setShaking(false);
-    if (Date.now() - prevClickTs < 800) return; // debounce
+    if (Date.now() - prevClickTs < 500) return; // debounce
 
     if (paused) return;
     tossCoins();

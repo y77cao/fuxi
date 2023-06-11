@@ -2,6 +2,7 @@ import Image from "next/image";
 import { randRange } from "@/utils";
 import styled from "styled-components";
 import { memo } from "react";
+import { getHexagramName } from "@/utils/iching";
 
 const Yao = ({ result }: { result: number }) => {
   const strokeNumber = randRange(1, 3);
@@ -52,7 +53,8 @@ const Hexagram = ({
       {items.map((result, i) => (
         <Yao key={i} result={result} />
       ))}
-      {sequences.length ? <>{isCurrent ? "Current" : "Future"}</> : null}
+      {sequences.length ? <div>{isCurrent ? "Current" : "Future"}</div> : null}
+      {sequences.length === 6 ? <div>({getHexagramName(results)})</div> : null}
     </Container>
   );
 };

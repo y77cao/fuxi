@@ -10,9 +10,9 @@ import { CoinCanvas, State as CoinCanvasState } from "@/components/CoinCanvas";
 import Hexagram from "@/components/Hexagram";
 import { Input } from "@/components/Input";
 import { TurtleShell } from "@/components/TurtleShell";
-import { askQuestion, preloaded } from "@/redux/appReducer";
+import { animationStarted, askQuestion, preloaded } from "@/redux/appReducer";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
-import { loadImage } from "@/utils";
+import { loadImage, randRange } from "@/utils";
 import { MAX_INTPUT_LENGTH, hints } from "@/constants";
 import { Hint } from "@/components/Hint";
 
@@ -29,15 +29,33 @@ export default function Home() {
   const app = useAppSelector((state: RootState) => state.app);
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout | undefined = undefined;
     if (app.rounds.length >= 6) {
       setPaused(true);
       coinCanvas?.stopAnimation();
       dispatch(askQuestion(question));
     } else if (app.rounds.length > 0) {
-      setHint(hints.ROUND_END(app.rounds.length));
-      setTimeout(() => setHint(hints.KEEP_GOING), 1500);
+      setHint(hints.ROUND_COUNT(app.rounds.length));
+      timeoutId = setTimeout(() => setHint(hints.KEEP_GOING), 1500);
     }
+
+    return () => clearTimeout(timeoutId);
   }, [app.rounds.length]);
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timer | undefined = undefined;
+    if (app.loading) {
+      setHint(hints.LOADING[0]);
+      intervalId = setInterval(() => {
+        setHint(hints.LOADING[randRange(0, hints.LOADING.length - 1)]);
+      }, 5000);
+    } else {
+      if (app.divinationResult) setHint(question);
+      clearInterval(intervalId);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [app.loading]);
 
   useEffect(() => {
     const preload = async () => {
@@ -88,21 +106,32 @@ export default function Home() {
         <Image src="/yi.png" alt="yi" width={100} height={140} />
       </TitleContainer>
       <MainContainer>
-        <DivinationBoard>
-          <canvas id="coin-canvas" ref={canvasRef}></canvas>
-          <TurtleShell
-            tossCoins={() => coinCanvas?.startToss()}
-            paused={paused}
-            onMouseEnter={() => setHint(hints.HOVER)}
-            onMouseLeave={() => setHint(hints.DEFAULT)}
-          />
-        </DivinationBoard>
+        {!app.loading && !app.divinationResult ? (
+          <DivinationBoard>
+            <canvas id="coin-canvas" ref={canvasRef}></canvas>
+
+            <TurtleShell
+              tossCoins={() => {
+                coinCanvas?.startToss();
+                dispatch(animationStarted());
+              }}
+              paused={paused || app.animating}
+              onMouseEnter={() => setHint(hints.HOVER)}
+              onMouseLeave={() => setHint(hints.DEFAULT)}
+            />
+          </DivinationBoard>
+        ) : null}
 
         <InputContainer>
           <Hint hint={hint} />
-          <Input onChange={(e) => updateQuestion(e)} ref={inputRef} />
+          {!app.loading && !app.divinationResult ? (
+            <Input onChange={(e) => updateQuestion(e)} ref={inputRef} />
+          ) : null}
           <Result>{app.divinationResult}</Result>
         </InputContainer>
+        {app.loading && !app.divinationResult ? (
+          <Image src="/loading.gif" alt="loading" width={256} height={256} />
+        ) : null}
         <HexagramContainer>
           <Hexagram
             isCurrent={true}
@@ -137,6 +166,7 @@ const MainContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
