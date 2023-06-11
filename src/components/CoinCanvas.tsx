@@ -41,7 +41,7 @@ export class CoinCanvas {
       this.coins.push(
         new Coin(
           this.canvas.width / 2 - COIN_ASSET_SIZE / 2,
-          this.canvas.height - 80
+          this.canvas.height - 2 * COIN_ASSET_SIZE
         )
       );
     }
@@ -71,11 +71,11 @@ export class CoinCanvas {
   }
 
   startToss() {
-    const border = 60;
+    const border = COIN_ASSET_SIZE;
     const coinLandingRangeMinX = border;
     const coinLandingRangeMaxX = this.canvas.width - border;
     const coinLandingRangeMinY = border;
-    const coinLandingRangeMaxY = (this.canvas.height / 3) * 2;
+    const coinLandingRangeMaxY = this.canvas.height - 320;
 
     const cache = new Set();
 
@@ -106,12 +106,6 @@ export class CoinCanvas {
       coin.setSide(side);
       coin.setParabola(parabola);
     }
-
-    store.dispatch(
-      roundEnded({
-        coinTossResult: this.coins.map((coin) => coin.side),
-      })
-    );
     this.setState(State.THROW);
   }
 
@@ -133,11 +127,18 @@ export class CoinCanvas {
     this.coins.forEach((coin) => {
       const inProgress = coin.move(
         this.canvas.width / 2 - COIN_ASSET_SIZE / 2,
-        this.canvas.height - 80
+        this.canvas.height - 2 * COIN_ASSET_SIZE
       );
       if (inProgress) ended = false;
     });
-    if (ended) this.setState(State.READY);
+    if (ended) {
+      this.setState(State.READY);
+      store.dispatch(
+        roundEnded({
+          coinTossResult: this.coins.map((coin) => coin.side),
+        })
+      );
+    }
   }
 
   update(tframe: number) {
@@ -161,7 +162,7 @@ export class CoinCanvas {
       this.coins.forEach((coin) => {
         coin.setPos(
           this.canvas.width / 2 - COIN_ASSET_SIZE / 2,
-          this.canvas.height - 80
+          this.canvas.height - 2 * COIN_ASSET_SIZE
         );
       });
     }
@@ -174,13 +175,13 @@ export class CoinCanvas {
     });
 
     if (this.state == State.DISPLAY) {
-      drawCenterText(
-        this.context,
-        "blalalala",
-        0,
-        this.canvas.height / 2,
-        this.canvas.width
-      );
+      // drawCenterText(
+      //   this.context,
+      //   "blalalala",
+      //   0,
+      //   this.canvas.height / 2,
+      //   this.canvas.width
+      // );
     }
   }
 }

@@ -1,32 +1,41 @@
-"use client";
-
 import Image from "next/image";
 import { randRange } from "@/utils";
 import styled from "styled-components";
+import { memo } from "react";
 
 const Yao = ({ result }: { result: number }) => {
   const strokeNumber = randRange(1, 3);
   const src = `/brush-stroke-${strokeNumber}.svg`;
   if (result === -1) {
-    return <div></div>;
+    return (
+      <YaoContainer>
+        <Image
+          src={src}
+          alt="yao"
+          width={200}
+          height={30}
+          style={{ visibility: "hidden" }}
+        />
+      </YaoContainer>
+    );
   } else if (result === 0) {
     return (
-      <div>
+      <YaoContainer className="fadeIn">
         <Image src={src} alt="yao" width={100} height={30} />
         <Image src={src} alt="yao" width={100} height={30} />
-      </div>
+      </YaoContainer>
     );
   } else {
     // result === 1
     return (
-      <div>
+      <YaoContainer className="fadeIn">
         <Image src={src} alt="yao" width={200} height={30} />
-      </div>
+      </YaoContainer>
     );
   }
 };
 
-export const Hexagram = ({
+const Hexagram = ({
   results,
   isCurrent,
 }: {
@@ -48,6 +57,12 @@ export const Hexagram = ({
   );
 };
 
+export default memo(
+  Hexagram,
+  (prevProps, nextProps) =>
+    prevProps.results.length === nextProps.results.length
+);
+
 const Container = styled.div`
   margin: 0 50px;
   display: flex;
@@ -55,3 +70,5 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
+
+const YaoContainer = styled.div``;

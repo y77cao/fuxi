@@ -1,7 +1,13 @@
 import { ChangeEvent } from "react";
 import styled from "styled-components";
 
-export const Input = ({ onChange }: { onChange: (e: ChangeEvent) => void }) => {
+export const Input = ({
+  onChange,
+  ref,
+}: {
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  ref: unknown;
+}) => {
   return (
     <InputContainer>
       <input
@@ -9,6 +15,7 @@ export const Input = ({ onChange }: { onChange: (e: ChangeEvent) => void }) => {
         type="text"
         onChange={(e) => onChange(e)}
         autoFocus
+        ref={ref}
       />
       <Stain />
     </InputContainer>
@@ -25,7 +32,7 @@ const InputContainer = styled.div`
     border: none;
     position: relative;
     background: transparent;
-    font-size: 1em;
+    font-size: 1.2rem;
     padding: 0 20px;
     text-align: center;
   }

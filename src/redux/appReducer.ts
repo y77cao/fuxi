@@ -69,8 +69,8 @@ export const askQuestion =
         `First section explains the meaning of the given hexagrams, using quotes from I Ching itself. ` +
         `The second section answers the question, using voice of a buddha.`;
 
-      let completion = await openAIClient?.chatCompletion(prompt);
-
+      let completion =
+        'Section 1: Explanation of the Hexagrams\n\nThe current hexagram, ䷗, is known as Huan, meaning "dispersion" or "dissolution." According to the I Ching, "Dispersion. Success. The king approaches his temple. It furthers one to cross the great water. Perseverance furthers." This hexagram represents a time when obstacles are being dissolved, and the situation is ripe for progress and success.\n\nThe future hexagram, ䷵, is called Shi He, meaning "biting through" or "breaking through limitations." The I Ching states, "Biting through has success. It is favorable to let justice be administered." This hexagram indicates that by asserting oneself and taking decisive action, you can break through any barriers and achieve your goals.\n\nSection 2: Answering the Question\n\nOh noble seeker of wisdom, the hexagrams reveal that you are currently in a phase of dispersion, where barriers and obstacles are dissolving away. This is a time for progress and success. It is essential to maintain an open mind and embrace change during this period, as it will lead to growth and transformation.\n\nAs you move forward, you will encounter a time of biting through, where you must assert yourself and take decisive action to overcome any remaining limitations. Do not shy away from challenges; instead, face them with courage and determination. By doing so, you will break through any barriers and achieve your desired outcome.\n\nRemember, dear one, that perseverance furthers your journey towards enlightenment and inner peace. Remain steadfast in your convictions and trust in the guidance of the I Ching. By following this path, you will reach greater heights and experience the harmony you seek.'; // await openAIClient?.chatCompletion(prompt);
       console.log({ completion });
 
       dispatch(divinationSuccess({ divinationResult: completion }));

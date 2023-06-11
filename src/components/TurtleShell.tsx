@@ -1,20 +1,28 @@
-"use client";
-
 import Image from "next/image";
 import { useState } from "react";
 import styled from "styled-components";
 
 export const TurtleShell = ({
   tossCoins,
+  onMouseEnter,
+  onMouseLeave,
   paused,
 }: {
   tossCoins: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
   paused: boolean;
 }) => {
   const [shaking, setShaking] = useState(false);
+  const [prevClickTs, setPrevClickTs] = useState(0);
 
+  const onClick = () => {
+    setShaking(true);
+    setPrevClickTs(Date.now());
+  };
   const toss = () => {
     setShaking(false);
+    if (Date.now() - prevClickTs < 800) return; // debounce
 
     if (paused) return;
     tossCoins();
@@ -23,12 +31,14 @@ export const TurtleShell = ({
   return (
     <Container>
       <Image
-        src="/turtle-shell.jpeg"
+        src="/turtle-shell.png"
         alt="turtle shell"
-        width={100}
-        height={100}
-        onMouseDown={() => setShaking(true)}
+        width={320}
+        height={420}
+        onMouseDown={onClick}
         onMouseUp={toss}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         className={shaking ? "shaking" : ""}
       />
     </Container>
@@ -41,6 +51,11 @@ const Container = styled.div`
   right: 0;
   bottom: 0;
   margin: auto;
-  width: 100px;
-  height: 130px;
+  width: 320px;
+  height: 420px;
+
+  &:hover {
+    animation: shake 0.5s;
+    animation-iteration-count: 1;
+  }
 `;
