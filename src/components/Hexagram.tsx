@@ -46,15 +46,14 @@ const Hexagram = ({
   // starting bottom to top
 
   const remaining = 6 - results.length;
-  const sequences = results.reverse();
-  const items = [...Array(remaining).fill(-1), ...sequences];
+  const items = [...Array(remaining).fill(-1), ...results];
   return (
     <Container>
       {items.map((result, i) => (
         <Yao key={i} result={result} />
       ))}
-      {sequences.length ? <div>{isCurrent ? "Current" : "Future"}</div> : null}
-      {sequences.length === 6 ? <div>({getHexagramName(results)})</div> : null}
+      {results.length ? <div>{isCurrent ? "Current" : "Future"}</div> : null}
+      {results.length === 6 ? <div>({getHexagramName(results)})</div> : null}
     </Container>
   );
 };

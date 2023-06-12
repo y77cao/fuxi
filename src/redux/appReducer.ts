@@ -30,12 +30,13 @@ export const appSlice = createSlice({
       state.openAIClient = action.payload.openAIClient;
     },
     roundEnded: (state, action) => {
+      // bottom to top
       state.rounds = [
-        ...state.rounds,
         {
           coinTossResult: action.payload.coinTossResult,
           iChingResult: coinTossResultToYao(action.payload.coinTossResult),
         },
+        ...state.rounds,
       ];
     },
     animationStarted: (state) => {

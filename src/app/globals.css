@@ -21,7 +21,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
   width: 100%;
-  font-size: 1.2rem;
+  font-size: calc(20px + 0.5vw);
   animation: fadeIn ease 2s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;

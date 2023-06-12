@@ -29,12 +29,13 @@ const InputContainer = styled.div`
   align-items: center;
   justify-content: center;
   input {
+    width: 100%;
     border: none;
     position: relative;
     background: transparent;
-    font-size: 1.2rem;
     padding: 0 20px;
     text-align: center;
+    font-size: calc(20px + 0.5vw);
   }
 
   input:focus {

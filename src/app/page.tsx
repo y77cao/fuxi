@@ -87,8 +87,11 @@ export default function Home() {
     const value = e.target.value;
     if (value.length >= MAX_INTPUT_LENGTH) {
       setHint(hints.INPUT_LENGTH_ERROR);
+      setPaused(true);
       return;
     }
+
+    if (paused) setPaused(false);
 
     if (!value.length) {
       setHint(hints.DEFAULT);
@@ -116,8 +119,12 @@ export default function Home() {
                 dispatch(animationStarted());
               }}
               paused={paused || app.animating}
-              onMouseEnter={() => setHint(hints.HOVER)}
-              onMouseLeave={() => setHint(hints.DEFAULT)}
+              onMouseEnter={() => {
+                if (!paused && !app.animating) setHint(hints.HOVER);
+              }}
+              onMouseLeave={() => {
+                if (!paused && !app.animating) setHint(hints.DEFAULT);
+              }}
             />
           </DivinationBoard>
         ) : null}
@@ -183,7 +190,6 @@ const InputContainer = styled.div`
   flex-direction: column;
   align-items: center;
   z-index: 99;
-  font-size: 1.4rem;
   width: 50%;
   text-align: center;
 `;
@@ -204,7 +210,6 @@ const HexagramContainer = styled.div`
 `;
 
 const Result = styled.div`
-  font-size: 0.5rem;
   max-height: 500px;
   overflow: scroll;
 `;
