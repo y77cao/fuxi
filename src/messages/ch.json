@@ -1,0 +1,12 @@
+{
+  "Home": {
+    "hints": {
+      "default": "欲知何也？",
+      "hover": "长按龟壳投掷钱币。",
+      "typing": "吾欲知汝之惑......",
+      "inputLengthError": "汝似多问，请先问一事。",
+      "roundCount": "Round {round}/6",
+      "keepGoing": "Take a deep breath...stay focused on the question. Toss again."
+    }
+  }
+}

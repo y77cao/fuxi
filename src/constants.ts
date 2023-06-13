@@ -23,4 +23,4 @@ export const hints = {
   ],
 };
 
-export const MAX_INTPUT_LENGTH = 280;
+export const MAX_INTPUT_LENGTH = 140;

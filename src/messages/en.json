@@ -1,0 +1,12 @@
+{
+  "Home": {
+    "hints": {
+      "default": "What would you like to know about?",
+      "hover": "Hold the turtle shell to toss coins.",
+      "typing": "I am listening...",
+      "inputLengthError": "Looks like you have many things to ask...let's start with one question.",
+      "roundCount": "Round {round}/6",
+      "keepGoing": "Take a deep breath...stay focused on the question. Toss again."
+    }
+  }
+}
