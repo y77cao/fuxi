@@ -1,6 +1,7 @@
 import { OpenAIClient } from "@/clients/openai";
 import { coinTossResultToYao, getHexagram } from "@/utils/iching";
 import { createSlice } from "@reduxjs/toolkit";
+import { prompt } from "@/constants";
 
 type AppState = {
   animationAssets: { name: string; image: HTMLImageElement }[];
@@ -65,7 +66,8 @@ export const {
 } = appSlice.actions;
 
 export const askQuestion =
-  (question: string) => async (dispatch: any, getState: () => any) => {
+  (question: string, locale: string) =>
+  async (dispatch: any, getState: () => any) => {
     dispatch(divinationRequest());
     try {
       const state = getState();
@@ -77,15 +79,9 @@ export const askQuestion =
       const currentHexagram = getHexagram(currentResult);
       const futureHexagram = getHexagram(futureResult);
 
-      const prompt =
-        `You are an I Ching divination master. Given the question ${question}, ` +
-        `Explain the divination result with current hexagram ${currentHexagram}, ` +
-        `and future hexagram ${futureHexagram}. The response should be in two paragrahs. ` +
-        `First paragrah explains the meaning of the given hexagrams, using quotes from I Ching itself. ` +
-        `The second paragrah answers the question. Return the result only and nothing else. If the question does not make sense, ` +
-        `consider it empty.`;
-
-      let completion = await openAIClient?.chatCompletion(prompt);
+      let completion = await openAIClient?.chatCompletion(
+        prompt[locale](question, currentHexagram, futureHexagram)
+      );
       console.log({ completion });
 
       dispatch(divinationSuccess({ divinationResult: completion }));

@@ -68,7 +68,7 @@ const hexagramToNamesEN: Record<string, string> = {
   "䷿": "Before Completion",
 };
 
-const hexagramToNamesCN: Record<string, string> = {
+const hexagramToNamesCH: Record<string, string> = {
   "䷀": "乾",
   "䷁": "坤",
   "䷂": "屯",
@@ -135,6 +135,11 @@ const hexagramToNamesCN: Record<string, string> = {
   "䷿": "未济",
 };
 
+const hexagramToNames: Record<string, Record<string, string>> = {
+  en: hexagramToNamesEN,
+  ch: hexagramToNamesCH,
+};
+
 /**
  * 1．三枚铜钱中有两枚正面向上，这是少阳之象，记做“ ━ ”，为阳爻
  * 2．三枚铜钱中只有一枚正面向上，这是少阴之象，记做“ – –  ”，为阴爻
@@ -179,7 +184,7 @@ export const getHexagram = (result: (0 | 1)[]) => {
   return hexagrams[decimalIndex];
 };
 
-export const getHexagramName = (result: (0 | 1)[]) => {
+export const getHexagramName = (result: (0 | 1)[], locale: string) => {
   if (result.length !== 6) {
     throw new Error("Input array must have a size of 6");
   }
@@ -189,5 +194,5 @@ export const getHexagramName = (result: (0 | 1)[]) => {
   const decimalIndex = parseInt(binaryString, 2);
   const hexagram = hexagrams[decimalIndex];
   // Get the corresponding hexagram from the string
-  return hexagramToNamesEN[hexagram];
+  return hexagramToNames[locale][hexagram];
 };

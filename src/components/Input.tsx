@@ -35,7 +35,7 @@ const InputContainer = styled.div`
     background: transparent;
     padding: 0 20px;
     text-align: center;
-    font-size: calc(20px + 0.5vw);
+    font-size: calc(25px + 0.5vw);
   }
 
   input:focus {

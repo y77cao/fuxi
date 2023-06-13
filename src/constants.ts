@@ -3,15 +3,8 @@ export const ANIMATION_SPEED = 1000;
 
 export const COIN_ASSET_SIZE = 128;
 
-export const hints = {
-  DEFAULT: "What would you like to know about?",
-  HOVER: "Hold the turtle shell to toss coins.",
-  TYPING: "I am listening...",
-  INPUT_LENGTH_ERROR:
-    "Looks like you have many things to ask...let's start with one question.",
-  ROUND_COUNT: (round: number) => ` Round ${round}/6`,
-  KEEP_GOING: "Take a deep breath...stay focused on the question. Toss again.",
-  LOADING: [
+export const loadingText: Record<string, string[]> = {
+  en: [
     "Close your eyes and take a deep breath again...",
     "Seeing through the sky, stars, and the cosmos...",
     "Listening to the wind that blows through past and future...",
@@ -21,6 +14,33 @@ export const hints = {
     '"Events follow the laws of the cosmos. To understand these laws and act in accordance with them means to have control over one’s own fate." — Hexagram 50, The Caldron',
     '"All beings stand side by side in incomprehensible diversity. This diversity can be made fruitful only by a decision that brings about inner peace." — Hexagram 58, The Joyous (Lake)',
   ],
+  ch: [
+    "请静候。",
+    "“易者，象也；卦者，情也。” -- 《周易·系辞上》",
+    "“卜者，咸也；占者，断也。” -- 《周易·系辞下》",
+    "“易有太极，是生两仪，两仪生四象，四象生八卦，八卦定吉凶，吉凶生大业。” -- 《周易·系辞上》",
+    "沉思熟虑，鉴瑕索隐。",
+    "深吸积气。安然无忧。",
+    "聚精会神，持专则易。",
+  ],
 };
 
-export const MAX_INTPUT_LENGTH = 140;
+export const prompt: Record<
+  string,
+  (question: string, currentHexagram: string, futureHexagram: string) => string
+> = {
+  en: (question: string, currentHexagram: string, futureHexagram: string) =>
+    `You are an I Ching divination master. Given the question ${question}, ` +
+    `Explain the divination result with current hexagram ${currentHexagram}, ` +
+    `and future hexagram ${futureHexagram}. The response should be in two paragrahs. ` +
+    `First paragrah explains the meaning of the given hexagrams, using quotes from I Ching itself. ` +
+    `The second paragrah answers the question. Return the result only and nothing else. If the question does not make sense, ` +
+    `consider it empty.`,
+  ch: (question: string, currentHexagram: string, futureHexagram: string) =>
+    `你是易经卜卦大师。根据客户的问题：${question}，` +
+    `解释卜卦结果的主卦：${currentHexagram}，和变卦：${futureHexagram}。回答应该分为两个段落。` +
+    `第一段用易经本身的引用解释两个卦象的含义。` +
+    `第二段回答客户的问题。只返回两个段落，不要注释。如果问题不合理，认为它是空的。`,
+};
+
+export const MAX_INPUT_LENGTH = 140;

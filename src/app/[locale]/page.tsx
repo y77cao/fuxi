@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { OpenAIClient } from "@/clients/openai";
 import { CoinCanvas, State as CoinCanvasState } from "@/components/CoinCanvas";
@@ -14,12 +14,14 @@ import { TurtleShell } from "@/components/TurtleShell";
 import { animationStarted, askQuestion, preloaded } from "@/redux/appReducer";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { loadImage, randRange } from "@/utils";
-import { MAX_INTPUT_LENGTH, hints } from "@/constants";
 import { Hint } from "@/components/Hint";
+import { MAX_INPUT_LENGTH, loadingText } from "@/constants";
+import LocaleSwitcher from "@/components/LocaleSwitcher";
 
 export default function Home() {
   const dispatch = useAppDispatch();
   const t = useTranslations("Home");
+  const locale = useLocale();
 
   const [paused, setPaused] = useState(false);
   const [question, setQuestion] = useState("");
@@ -31,15 +33,22 @@ export default function Home() {
 
   const app = useAppSelector((state: RootState) => state.app);
 
+  // todo:
+  // restart
+  // verify hexagram names
+  // result bg, reponsiveness
+  // title border as stamp
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined = undefined;
     if (app.rounds.length >= 6) {
       setPaused(true);
       coinCanvas?.stopAnimation();
-      dispatch(askQuestion(question));
+      dispatch(askQuestion(question, locale));
     } else if (app.rounds.length > 0) {
-      setHint(t("hints.roundCount", { round: app.rounds.length }));
-      timeoutId = setTimeout(() => setHint(t("hints.keepGoing")), 1500);
+      const result = [...(app.rounds[0].coinTossResult as number[])];
+      const key = result.sort().join("");
+      setHint(t(`round.${app.rounds.length}`));
+      timeoutId = setTimeout(() => setHint(t(`coinTossResult.${key}`)), 1500);
     }
 
     return () => clearTimeout(timeoutId);
@@ -48,9 +57,11 @@ export default function Home() {
   useEffect(() => {
     let intervalId: NodeJS.Timer | undefined = undefined;
     if (app.loading) {
-      setHint(hints.LOADING[0]);
+      setHint(loadingText[locale][0]);
       intervalId = setInterval(() => {
-        setHint(hints.LOADING[randRange(0, hints.LOADING.length - 1)]);
+        setHint(
+          loadingText[locale][randRange(0, loadingText[locale].length - 1)]
+        );
       }, 5000);
     } else {
       if (app.divinationResult) setHint(question);
@@ -88,7 +99,7 @@ export default function Home() {
 
   const updateQuestion = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (value.length >= MAX_INTPUT_LENGTH) {
+    if (value.length >= MAX_INPUT_LENGTH) {
       setHint(t("hints.inputLengthError"));
       setPaused(true);
       return;
@@ -111,6 +122,7 @@ export default function Home() {
         <Image src="/zhou.png" alt="zhou" width={100} height={140} />
         <Image src="/yi.png" alt="yi" width={100} height={140} />
       </TitleContainer>
+      <LocaleSwitcher />
       <MainContainer>
         {!app.loading && !app.divinationResult ? (
           <DivinationBoard>

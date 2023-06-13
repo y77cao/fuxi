@@ -46,6 +46,7 @@ export const TurtleShell = ({
 };
 
 const Container = styled.div`
+  cursor: pointer;
   position: absolute;
   left: 0;
   right: 0;
