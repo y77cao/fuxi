@@ -23,10 +23,10 @@ const Yao = ({ result }: { result: number }) => {
     return (
       <YaoContainer className="fadeIn">
         <ImageContainer>
-          <Image src={src} alt="yao" fill half />
+          <Image src={src} alt="yao" fill />
         </ImageContainer>
         <ImageContainer>
-          <Image src={src} alt="yao" fill half />
+          <Image src={src} alt="yao" fill />
         </ImageContainer>
       </YaoContainer>
     );
@@ -110,7 +110,7 @@ const YaoContainer = styled.div`
   display: flex;
 `;
 
-const ImageContainer = styled.div<{ half: boolean }>`
+const ImageContainer = styled.div<{ half?: boolean }>`
   position: relative;
   width: ${(props) => (props.half ? "40%" : "100%")};
   height: 100%;
