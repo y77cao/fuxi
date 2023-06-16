@@ -11,12 +11,18 @@ import { CoinCanvas, State as CoinCanvasState } from "@/components/CoinCanvas";
 import Hexagram from "@/components/Hexagram";
 import { Input } from "@/components/Input";
 import { TurtleShell } from "@/components/TurtleShell";
-import { animationStarted, askQuestion, preloaded } from "@/redux/appReducer";
+import {
+  animationStarted,
+  askQuestion,
+  preloaded,
+  restart,
+} from "@/redux/appReducer";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { loadImage, randRange } from "@/utils";
 import { Hint } from "@/components/Hint";
 import { MAX_INPUT_LENGTH, loadingText } from "@/constants";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
+import { device } from "@/devices";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -29,14 +35,12 @@ export default function Home() {
   const [hint, setHint] = useState(t("hints.default"));
 
   const canvasRef = React.createRef<HTMLCanvasElement>();
-  const inputRef = useRef(); // uncontrolled input, stop re-render children
+  const inputRef = useRef<HTMLInputElement>(null); // uncontrolled input, stop re-render children
 
   const app = useAppSelector((state: RootState) => state.app);
 
   // todo:
-  // restart
-  // verify hexagram names
-  // result bg, reponsiveness
+  // reponsiveness
   // title border as stamp
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined = undefined;
@@ -49,6 +53,9 @@ export default function Home() {
       const key = result.sort().join("");
       setHint(t(`round.${app.rounds.length}`));
       timeoutId = setTimeout(() => setHint(t(`coinTossResult.${key}`)), 1500);
+    } else {
+      // length 0
+      setHint(t("hints.default"));
     }
 
     return () => clearTimeout(timeoutId);
@@ -116,11 +123,21 @@ export default function Home() {
     setQuestion(value);
   };
 
+  const restartDivination = () => {
+    setQuestion("");
+    setPaused(false);
+    dispatch(restart());
+  };
+
   return (
     <main>
       <TitleContainer>
-        <Image src="/zhou.png" alt="zhou" width={100} height={140} />
-        <Image src="/yi.png" alt="yi" width={100} height={140} />
+        <ImageContainer>
+          <Image src="/zhou.png" alt="zhou" fill />
+        </ImageContainer>
+        <ImageContainer>
+          <Image src="/yi.png" alt="yi" fill />
+        </ImageContainer>
       </TitleContainer>
       <LocaleSwitcher />
       <MainContainer>
@@ -143,17 +160,6 @@ export default function Home() {
             />
           </DivinationBoard>
         ) : null}
-
-        <InputContainer>
-          <Hint hint={hint} />
-          {!app.loading && !app.divinationResult ? (
-            <Input onChange={(e) => updateQuestion(e)} ref={inputRef} />
-          ) : null}
-          <Result>{app.divinationResult}</Result>
-        </InputContainer>
-        {app.loading && !app.divinationResult ? (
-          <Image src="/loading.gif" alt="loading" width={256} height={256} />
-        ) : null}
         <HexagramContainer>
           <Hexagram
             isCurrent={true}
@@ -164,13 +170,38 @@ export default function Home() {
             results={app.rounds.map((r) => r.iChingResult.future)}
           />
         </HexagramContainer>
+
+        <InputContainer>
+          <Hint hint={hint} />
+          {!app.loading && !app.divinationResult ? (
+            <Input onChange={(e) => updateQuestion(e)} reff={inputRef} />
+          ) : null}
+        </InputContainer>
+
+        {app.divinationResult ? (
+          <>
+            <Result>{app.divinationResult}</Result>
+            <Button onClick={() => restartDivination()}>{t("restart")}</Button>
+          </>
+        ) : null}
+        {app.loading && !app.divinationResult ? (
+          <Image src="/loading.gif" alt="loading" width={256} height={256} />
+        ) : null}
       </MainContainer>
     </main>
   );
 }
 
+const ImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
 const TitleContainer = styled.div`
   position: absolute;
+  width: 75px;
+  height: 250px;
   top: 0;
   left: 0;
   right: 0;
@@ -207,6 +238,14 @@ const InputContainer = styled.div`
   z-index: 99;
   width: 50%;
   text-align: center;
+
+  @media ${device.mobile} {
+    width: 100%;
+  }
+
+  @media ${device.tablet} {
+    width: 100%;
+  }
 `;
 
 const HexagramContainer = styled.div`
@@ -222,9 +261,41 @@ const HexagramContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   z-index: 1;
+
+  @media ${device.mobile} {
+    position: static;
+    margin: 10px 0;
+  }
+
+  @media ${device.tablet} {
+    position: static;
+    margin: 10px 0;
+  }
 `;
 
 const Result = styled.div`
-  max-height: 500px;
+  position: relative;
+  max-height: 400px;
   overflow: scroll;
+  background: url("/stain.png");
+  background-size: 100% 100%;
+  width: 50%;
+  z-index: 99;
+
+  @media ${device.mobile} {
+    padding: 0 10px;
+    width: 100%;
+  }
+`;
+
+const Button = styled.button`
+  padding: 20px;
+  border: none;
+  background: none;
+  color: #700a02;
+
+  &:hover {
+    cursor: pointer;
+    color: #000;
+  }
 `;

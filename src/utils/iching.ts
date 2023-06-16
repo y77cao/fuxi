@@ -145,6 +145,7 @@ const hexagramToNames: Record<string, Record<string, string>> = {
  * 2．三枚铜钱中只有一枚正面向上，这是少阴之象，记做“ – –  ”，为阴爻
  * 3．三枚铜钱都是正面向上，这是老阴之象，记做“ × ”，为变爻，在主卦中是阴爻，在变卦中是阳爻
  * 4．三枚铜钱都是反面向上，这是老阳之象，记做“ ○ ”，为变爻，在主卦中是阳爻，在变卦中是阴爻
+ * https://yijing.5000yan.com/qigua/1160.html
  */
 export const coinTossResultToYao = (
   coinTossResult: number[]

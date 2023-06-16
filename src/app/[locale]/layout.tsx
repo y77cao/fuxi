@@ -29,6 +29,10 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
+      <meta
+        name="viewport"
+        content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no"
+      ></meta>
       <Providers>
         <body>
           <NextIntlClientProvider locale={locale} messages={messages}>

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname } from "next-intl/client";
 import styled from "styled-components";
+import { device } from "@/devices";
 
 export default function LocaleSwitcher() {
   const t = useTranslations("LocaleSwitcher");
@@ -38,6 +39,10 @@ const LocaleContainer = styled.div`
   z-index: 999;
   display: flex;
   flex-direction: row;
+
+  @media ${device.mobile} {
+    flex-direction: column;
+  }
 `;
 
 const Locale = styled.div<{ $activeLocale: string; $selectionLocale: string }>`

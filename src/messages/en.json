@@ -21,7 +21,8 @@
       "001": "Two heads, one tail. Unchanging Yang.",
       "011": "Two tails, one head. Unchanging Yin.",
       "111": "Three tails. Changing Yin."
-    }
+    },
+    "restart": "Restart"
   },
   "Hexagram": {
     "currentHexagram": "Current",

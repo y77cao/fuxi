@@ -53,6 +53,10 @@ export const appSlice = createSlice({
       state.loading = false;
       state.divinationResult = action.payload.divinationResult;
     },
+    restart: (state) => {
+      state.rounds = [];
+      state.divinationResult = undefined;
+    },
   },
 });
 
@@ -63,6 +67,7 @@ export const {
   animationEnded,
   divinationRequest,
   divinationSuccess,
+  restart,
 } = appSlice.actions;
 
 export const askQuestion =

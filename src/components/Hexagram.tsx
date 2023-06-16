@@ -1,9 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import { randRange } from "@/utils";
 import styled from "styled-components";
 import { memo } from "react";
 import { getHexagramName } from "@/utils/iching";
 import { useLocale, useTranslations } from "next-intl";
+import { device } from "@/devices";
 
 const Yao = ({ result }: { result: number }) => {
   const strokeNumber = randRange(1, 3);
@@ -11,27 +14,29 @@ const Yao = ({ result }: { result: number }) => {
   if (result === -1) {
     return (
       <YaoContainer>
-        <Image
-          src={src}
-          alt="yao"
-          width={200}
-          height={30}
-          style={{ visibility: "hidden" }}
-        />
+        <ImageContainer>
+          <Image src={src} alt="yao" fill style={{ visibility: "hidden" }} />
+        </ImageContainer>
       </YaoContainer>
     );
   } else if (result === 0) {
     return (
       <YaoContainer className="fadeIn">
-        <Image src={src} alt="yao" width={100} height={30} />
-        <Image src={src} alt="yao" width={100} height={30} />
+        <ImageContainer>
+          <Image src={src} alt="yao" fill half />
+        </ImageContainer>
+        <ImageContainer>
+          <Image src={src} alt="yao" fill half />
+        </ImageContainer>
       </YaoContainer>
     );
   } else {
     // result === 1
     return (
       <YaoContainer className="fadeIn">
-        <Image src={src} alt="yao" width={200} height={30} />
+        <ImageContainer>
+          <Image src={src} alt="yao" fill />
+        </ImageContainer>
       </YaoContainer>
     );
   }
@@ -51,9 +56,12 @@ const Hexagram = ({
   const items = [...Array(remaining).fill(-1), ...results];
   return (
     <Container>
-      {items.map((result, i) => (
-        <Yao key={i} result={result} />
-      ))}
+      <HexagramContainer>
+        {items.map((result, i) => (
+          <Yao key={i} result={result} />
+        ))}
+      </HexagramContainer>
+
       {results.length ? (
         <div>{isCurrent ? t("currentHexagram") : t("futureHexagram")}</div>
       ) : null}
@@ -75,7 +83,35 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+
+  @media ${device.mobile} {
+    margin 10px 0;
+  }
 `;
 
-const YaoContainer = styled.div``;
+const HexagramContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 180px;
+  height: 150px;
+
+  @media ${device.mobile} {
+    width: 120px;
+    height: 120px;
+  }
+`;
+
+const YaoContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+`;
+
+const ImageContainer = styled.div<{ half: boolean }>`
+  position: relative;
+  width: ${(props) => (props.half ? "40%" : "100%")};
+  height: 100%;
+`;

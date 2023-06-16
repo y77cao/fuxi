@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 
 export const Hint = ({ hint }: { hint: string }) => {
   // somehow changing key will trigger fadeIn animation
   return (
-    <div className={"fadeIn"} key={hint}>
+    <Container className={"fadeIn"} key={hint}>
       {hint}
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  margin: 10px;
+`;

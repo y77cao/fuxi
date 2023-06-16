@@ -2,6 +2,8 @@ import Image from "next/image";
 import { useState } from "react";
 import styled from "styled-components";
 
+import { device } from "@/devices";
+
 export const TurtleShell = ({
   tossCoins,
   onMouseEnter,
@@ -36,6 +38,8 @@ export const TurtleShell = ({
         width={320}
         height={420}
         onMouseDown={onClick}
+        onTouchStart={onClick}
+        onTouchEnd={toss}
         onMouseUp={toss}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
@@ -58,5 +62,8 @@ const Container = styled.div`
   &:hover {
     animation: shake 0.5s;
     animation-iteration-count: 1;
+  }
+
+  @media (max-width: ${device.mobile}) {
   }
 `;

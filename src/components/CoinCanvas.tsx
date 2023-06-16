@@ -2,7 +2,7 @@
 
 import { Coin, SIDE } from "./Coin";
 import { Parabola } from "../utils/parabola";
-import { drawCenterText, randRange } from "@/utils/index";
+import { drawCenterText, hasCollision, randRange } from "@/utils/index";
 import { store } from "@/redux/store";
 import { animationEnded, roundEnded } from "@/redux/appReducer";
 import { COIN_ASSET_SIZE } from "@/constants";
@@ -45,14 +45,14 @@ export class CoinCanvas {
         )
       );
     }
-    this.init();
+    this.startAnimation();
   }
 
   setState(state: State) {
     this.state = state;
   }
 
-  init() {
+  startAnimation() {
     this.animate(0);
   }
 
@@ -75,9 +75,9 @@ export class CoinCanvas {
     const coinLandingRangeMinX = border;
     const coinLandingRangeMaxX = this.canvas.width - border;
     const coinLandingRangeMinY = border;
-    const coinLandingRangeMaxY = this.canvas.height - 320;
+    const coinLandingRangeMaxY = this.canvas.height - 420;
 
-    const cache = new Set();
+    const existingCoords = [];
 
     for (let i = 0; i < COIN_COUNT; i++) {
       const coin = this.coins[i];
@@ -86,11 +86,11 @@ export class CoinCanvas {
         x: randRange(coinLandingRangeMinX, coinLandingRangeMaxX),
         y: randRange(coinLandingRangeMinY, coinLandingRangeMaxY),
       };
-      while (cache.has(JSON.stringify(endPos))) {
+      while (hasCollision(existingCoords, endPos.x, endPos.y)) {
         endPos.x = randRange(coinLandingRangeMinX, coinLandingRangeMaxX);
         endPos.y = randRange(coinLandingRangeMinY, coinLandingRangeMaxY);
       }
-      cache.add(JSON.stringify(endPos));
+      existingCoords.push({ ...endPos });
 
       const duration = randRange(300, 500);
 
