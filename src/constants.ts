@@ -27,18 +27,36 @@ export const loadingText: Record<string, string[]> = {
 
 export const prompt: Record<
   string,
-  (question: string, currentHexagram: string, futureHexagram: string) => string
+  (
+    question: string,
+    currentHexagram: string,
+    futureHexagram: string,
+    currentHexagramName: string,
+    futureHexagramName: string
+  ) => string
 > = {
-  en: (question: string, currentHexagram: string, futureHexagram: string) =>
+  en: (
+    question: string,
+    currentHexagram: string,
+    futureHexagram: string,
+    currentHexagramName: string,
+    futureHexagramName: string
+  ) =>
     `You are an I Ching divination master. Given the question ${question}, ` +
     `Explain the divination result with current hexagram ${currentHexagram}, ` +
     `and future hexagram ${futureHexagram}. The response should be in two paragrahs. ` +
     `First paragrah explains the meaning of the given hexagrams, using quotes from I Ching itself. ` +
     `The second paragrah answers the question. Return the result only and nothing else. If the question does not make sense, ` +
     `consider it empty.`,
-  ch: (question: string, currentHexagram: string, futureHexagram: string) =>
+  ch: (
+    question: string,
+    currentHexagram: string,
+    futureHexagram: string,
+    currentHexagramName: string,
+    futureHexagramName: string
+  ) =>
     `你是易经卜卦大师。根据客户的问题：${question}，` +
-    `解释卜卦结果的主卦：${currentHexagram}，和变卦：${futureHexagram}。回答应该分为两个段落。` +
+    `解释卜卦结果的主卦：${currentHexagramName}卦（${currentHexagram}），和变卦：${futureHexagramName}卦（${futureHexagram}）。回答应该分为两个段落。` +
     `第一段用易经本身的引用解释两个卦象的含义。` +
     `第二段回答客户的问题。只返回两个段落，不要注释。如果问题不合理，认为它是空的。`,
 };

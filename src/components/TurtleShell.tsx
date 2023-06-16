@@ -18,7 +18,9 @@ export const TurtleShell = ({
   const [shaking, setShaking] = useState(false);
   const [prevClickTs, setPrevClickTs] = useState(0);
 
-  const onClick = () => {
+  // @ts-ignore event type
+  const onClick = (e) => {
+    e.preventDefault();
     setShaking(true);
     setPrevClickTs(Date.now());
   };
@@ -58,6 +60,7 @@ const Container = styled.div`
   margin: auto;
   width: 320px;
   height: 420px;
+  user-select: none;
 
   &:hover {
     animation: shake 0.5s;

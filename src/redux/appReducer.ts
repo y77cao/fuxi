@@ -1,5 +1,9 @@
 import { OpenAIClient } from "@/clients/openai";
-import { coinTossResultToYao, getHexagram } from "@/utils/iching";
+import {
+  coinTossResultToYao,
+  getHexagram,
+  getHexagramName,
+} from "@/utils/iching";
 import { createSlice } from "@reduxjs/toolkit";
 import { prompt } from "@/constants";
 
@@ -83,9 +87,17 @@ export const askQuestion =
 
       const currentHexagram = getHexagram(currentResult);
       const futureHexagram = getHexagram(futureResult);
+      const currentHexagramName = getHexagramName(currentResult, locale);
+      const futureHexagramName = getHexagramName(futureResult, locale);
 
       let completion = await openAIClient?.chatCompletion(
-        prompt[locale](question, currentHexagram, futureHexagram)
+        prompt[locale](
+          question,
+          currentHexagram,
+          futureHexagram,
+          currentHexagramName,
+          futureHexagramName
+        )
       );
       console.log({ completion });
 

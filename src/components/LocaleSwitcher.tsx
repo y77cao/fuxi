@@ -1,18 +1,22 @@
 "use client";
 
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname } from "next-intl/client";
 import styled from "styled-components";
 import { device } from "@/devices";
+import { restart } from "@/redux/appReducer";
 
 export default function LocaleSwitcher() {
+  const dispatch = useDispatch();
   const t = useTranslations("LocaleSwitcher");
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
 
   function onClickLocale(locale: string) {
+    dispatch(restart());
     router.replace(`/${locale}${pathname}`);
   }
 
