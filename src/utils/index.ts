@@ -1,5 +1,3 @@
-import { COIN_ASSET_SIZE } from "@/constants";
-
 export const loadImage = (url: string) =>
   new Promise((resolve, reject) => {
     const img = new Image();
@@ -45,18 +43,19 @@ export const circleIntersection = (
 export const hasCollision = (
   existingCoords: { x: number; y: number }[],
   otherX: number,
-  otherY: number
+  otherY: number,
+  coinSize: number
 ) => {
   for (let i = 0; i < existingCoords.length; i++) {
     const { x, y } = existingCoords[i];
     if (
       circleIntersection(
-        otherX + COIN_ASSET_SIZE / 2,
-        otherY + COIN_ASSET_SIZE / 2,
-        COIN_ASSET_SIZE / 2,
-        x + COIN_ASSET_SIZE / 2,
-        y + COIN_ASSET_SIZE / 2,
-        COIN_ASSET_SIZE / 2
+        otherX + coinSize / 2,
+        otherY + coinSize / 2,
+        coinSize / 2,
+        x + coinSize / 2,
+        y + coinSize / 2,
+        coinSize / 2
       )
     ) {
       return true;

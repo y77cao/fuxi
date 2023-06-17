@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { device } from "@/devices";
 import styled from "styled-components";
 
 export const Hint = ({ hint }: { hint: string }) => {
@@ -12,4 +12,15 @@ export const Hint = ({ hint }: { hint: string }) => {
 
 const Container = styled.div`
   margin: 10px;
+  z-index: 99;
+  width: 50%;
+  text-align: center;
+
+  @media ${device.mobile} {
+    margin: 20px 10px;
+  }
+
+  @media ${device.tablet} {
+    margin: 20px 10px;
+  }
 `;

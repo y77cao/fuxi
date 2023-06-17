@@ -1,6 +1,5 @@
 "use client";
 
-import { ANIMATION_SPEED, COIN_ASSET_SIZE } from "@/constants";
 import { Parabola } from "@/utils/parabola";
 import { store } from "@/redux/store";
 
@@ -76,7 +75,7 @@ export class Coin {
     return true;
   }
 
-  render(context: CanvasRenderingContext2D) {
+  render(context: CanvasRenderingContext2D, coinSize: number) {
     const state = store.getState();
     const { animationAssets } = state.app;
 
@@ -90,8 +89,8 @@ export class Coin {
       512,
       this.x,
       this.y,
-      COIN_ASSET_SIZE,
-      COIN_ASSET_SIZE
+      coinSize,
+      coinSize
     );
   }
 }

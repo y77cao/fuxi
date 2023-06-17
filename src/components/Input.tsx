@@ -1,6 +1,8 @@
 import { ChangeEvent, MutableRefObject } from "react";
 import styled from "styled-components";
 
+import { device } from "@/devices";
+
 export const Input = ({
   onChange,
   reff,
@@ -36,6 +38,27 @@ const InputContainer = styled.div`
     padding: 5px 20px;
     text-align: center;
     font-size: calc(30px + 0.5vw);
+    :lang(en) {
+      font-family: jimNightshadeRegular;
+      font-size: calc(25px + 0.7vw);
+    }
+
+    :lang(ch) {
+      font-family: guFengLiShu;
+      font-size: calc(30px + 0.7vw);
+    }
+
+    @media ${device.mobile} {
+      justify-content: flex-start;
+
+      :lang(en) {
+        font-size: calc(15px + 0.7vw);
+      }
+
+      :lang(ch) {
+        font-size: calc(20px + 0.7vw);
+      }
+    }
   }
 
   input:focus {

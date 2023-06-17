@@ -111,13 +111,3 @@ main {
   opacity: 1;
   transition-delay: 100ms;
 }
-
-:lang(en) {
-  font-family: jimNightshadeRegular;
-  font-size: calc(25px + 0.7vw);
-}
-
-:lang(ch) {
-  font-family: guFengLiShu;
-  font-size: calc(30px + 0.7vw);
-}

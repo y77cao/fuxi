@@ -5,7 +5,11 @@ import { Parabola } from "../utils/parabola";
 import { drawCenterText, hasCollision, randRange } from "@/utils/index";
 import { store } from "@/redux/store";
 import { animationEnded, roundEnded } from "@/redux/appReducer";
-import { COIN_ASSET_SIZE } from "@/constants";
+import {
+  ASSET_RESIZE_HEIGHT,
+  COIN_ASSET_SIZE_LARGE,
+  COIN_ASSET_SIZE_SMALL,
+} from "@/constants";
 
 export enum State {
   READY,
@@ -23,6 +27,7 @@ export class CoinCanvas {
   coins: Coin[];
   displayStartT: number = 0;
   animationRequestId: number = 0;
+  coinSize: number;
 
   lastFrame: number = 0;
 
@@ -34,14 +39,18 @@ export class CoinCanvas {
 
     this.state = State.READY;
     this.coins = [];
+    this.coinSize =
+      window.innerHeight > ASSET_RESIZE_HEIGHT
+        ? COIN_ASSET_SIZE_LARGE
+        : COIN_ASSET_SIZE_SMALL;
 
     window?.addEventListener("resize", () => this.resize());
 
     for (let i = 0; i < COIN_COUNT; i++) {
       this.coins.push(
         new Coin(
-          this.canvas.width / 2 - COIN_ASSET_SIZE / 2,
-          this.canvas.height - 2 * COIN_ASSET_SIZE
+          this.canvas.width / 2 - this.coinSize / 2,
+          this.canvas.height - 2 * this.coinSize
         )
       );
     }
@@ -71,7 +80,7 @@ export class CoinCanvas {
   }
 
   startToss() {
-    const border = COIN_ASSET_SIZE;
+    const border = this.coinSize;
     const coinLandingRangeMinX = border;
     const coinLandingRangeMaxX = this.canvas.width - border;
     const coinLandingRangeMinY = border;
@@ -86,7 +95,7 @@ export class CoinCanvas {
         x: randRange(coinLandingRangeMinX, coinLandingRangeMaxX),
         y: randRange(coinLandingRangeMinY, coinLandingRangeMaxY),
       };
-      while (hasCollision(existingCoords, endPos.x, endPos.y)) {
+      while (hasCollision(existingCoords, endPos.x, endPos.y, this.coinSize)) {
         endPos.x = randRange(coinLandingRangeMinX, coinLandingRangeMaxX);
         endPos.y = randRange(coinLandingRangeMinY, coinLandingRangeMaxY);
       }
@@ -126,8 +135,8 @@ export class CoinCanvas {
     let ended = true;
     this.coins.forEach((coin) => {
       const inProgress = coin.move(
-        this.canvas.width / 2 - COIN_ASSET_SIZE / 2,
-        this.canvas.height - 2 * COIN_ASSET_SIZE
+        this.canvas.width / 2 - this.coinSize / 2,
+        this.canvas.height - 2 * this.coinSize
       );
       if (inProgress) ended = false;
     });
@@ -158,12 +167,16 @@ export class CoinCanvas {
   resize() {
     this.canvas.width = window?.innerWidth;
     this.canvas.height = window?.innerHeight;
+    this.coinSize =
+      window.innerHeight > ASSET_RESIZE_HEIGHT
+        ? COIN_ASSET_SIZE_LARGE
+        : COIN_ASSET_SIZE_SMALL;
 
     if (this.state === State.READY) {
       this.coins.forEach((coin) => {
         coin.setPos(
-          this.canvas.width / 2 - COIN_ASSET_SIZE / 2,
-          this.canvas.height - 2 * COIN_ASSET_SIZE
+          this.canvas.width / 2 - this.coinSize / 2,
+          this.canvas.height - 2 * this.coinSize
         );
       });
     }
@@ -172,7 +185,7 @@ export class CoinCanvas {
   render() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.coins.forEach((coin) => {
-      coin.render(this.context);
+      coin.render(this.context, this.coinSize);
     });
 
     if (this.state == State.DISPLAY) {

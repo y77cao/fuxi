@@ -1,7 +1,10 @@
 export const GRAVITY = 9.8;
 export const ANIMATION_SPEED = 1000;
 
-export const COIN_ASSET_SIZE = 128;
+export const COIN_ASSET_SIZE_LARGE = 128;
+export const COIN_ASSET_SIZE_SMALL = 64;
+
+export const ASSET_RESIZE_HEIGHT = 720;
 
 export const loadingText: Record<string, string[]> = {
   en: [
@@ -18,7 +21,6 @@ export const loadingText: Record<string, string[]> = {
     "请静候。",
     "“易者，象也；卦者，情也。” -- 《周易·系辞上》",
     "“卜者，咸也；占者，断也。” -- 《周易·系辞下》",
-    "“易有太极，是生两仪，两仪生四象，四象生八卦，八卦定吉凶，吉凶生大业。” -- 《周易·系辞上》",
     "沉思熟虑，鉴瑕索隐。",
     "深吸积气。安然无忧。",
     "聚精会神，持专则易。",

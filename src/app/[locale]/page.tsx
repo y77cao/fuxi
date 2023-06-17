@@ -40,8 +40,8 @@ export default function Home() {
   const app = useAppSelector((state: RootState) => state.app);
 
   // todo:
-  // reponsiveness
   // title border as stamp
+  // fade in result
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined = undefined;
     if (app.rounds.length >= 6) {
@@ -171,8 +171,8 @@ export default function Home() {
           />
         </HexagramContainer>
 
+        <Hint hint={hint} />
         <InputContainer>
-          <Hint hint={hint} />
           {!app.loading && !app.divinationResult ? (
             <Input onChange={(e) => updateQuestion(e)} reff={inputRef} />
           ) : null}
@@ -185,7 +185,9 @@ export default function Home() {
           </>
         ) : null}
         {app.loading && !app.divinationResult ? (
-          <Image src="/loading.gif" alt="loading" width={256} height={256} />
+          <LoadingContainer>
+            <Image src="/loading.gif" alt="loading" fill />
+          </LoadingContainer>
         ) : null}
       </MainContainer>
     </main>
@@ -196,6 +198,17 @@ const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+`;
+
+const LoadingContainer = styled.div`
+  position: relative;
+  width: 256px;
+  height: 256px;
+
+  @media ${device.mobile} {
+    width: 128px;
+    height: 128px;
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -222,6 +235,28 @@ const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  :lang(en) {
+    font-family: jimNightshadeRegular;
+    font-size: calc(25px + 0.7vw);
+  }
+
+  :lang(ch) {
+    font-family: guFengLiShu;
+    font-size: calc(30px + 0.7vw);
+  }
+
+  @media ${device.mobile} {
+    justify-content: flex-start;
+
+    :lang(en) {
+      font-size: calc(15px + 0.7vw);
+    }
+
+    :lang(ch) {
+      font-size: calc(20px + 0.7vw);
+    }
+  }
 `;
 
 const DivinationBoard = styled.div`
@@ -264,12 +299,12 @@ const HexagramContainer = styled.div`
 
   @media ${device.mobile} {
     position: static;
-    margin: 10px 0;
+    margin: 40% 0 0 0;
   }
 
   @media ${device.tablet} {
     position: static;
-    margin: 10px 0;
+    margin: 40% 0 0 0;
   }
 `;
 

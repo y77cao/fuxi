@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import styled from "styled-components";
-
-import { device } from "@/devices";
+import { ASSET_RESIZE_HEIGHT } from "@/constants";
 
 export const TurtleShell = ({
   tossCoins,
@@ -19,13 +18,17 @@ export const TurtleShell = ({
   const [prevClickTs, setPrevClickTs] = useState(0);
 
   // @ts-ignore event type
-  const onClick = (e) => {
-    e.preventDefault();
+  const onClick = () => {
+    // e.preventDefault();
     setShaking(true);
     setPrevClickTs(Date.now());
   };
   const toss = () => {
+    // e.preventDefault();
+    console.log("toss");
     setShaking(false);
+    console.log(Date.now() - prevClickTs);
+    console.log(paused);
     if (Date.now() - prevClickTs < 500) return; // debounce
 
     if (paused) return;
@@ -35,17 +38,29 @@ export const TurtleShell = ({
   return (
     <Container>
       <Image
+        fill
         src="/turtle-shell.png"
         alt="turtle shell"
-        width={320}
-        height={420}
         onMouseDown={onClick}
         onTouchStart={onClick}
         onTouchEnd={toss}
+        onTouchCancel={() => console.log("cancel")}
+        onTouchMove={() => console.log("move")}
         onMouseUp={toss}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          console.log("menu");
+        }}
         className={shaking ? "shaking" : ""}
+        style={{
+          MozUserSelect: "none",
+          WebkitUserSelect: "none",
+          msUserSelect: "none",
+          userSelect: "none",
+          touchAction: "none",
+        }}
       />
     </Container>
   );
@@ -60,13 +75,19 @@ const Container = styled.div`
   margin: auto;
   width: 320px;
   height: 420px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
   user-select: none;
+  touch-action: none;
 
   &:hover {
     animation: shake 0.5s;
     animation-iteration-count: 1;
   }
 
-  @media (max-width: ${device.mobile}) {
+  @media (max-height: ${ASSET_RESIZE_HEIGHT}px) {
+    width: 160px;
+    height: 210px;
   }
 `;
