@@ -110,8 +110,8 @@ const YaoContainer = styled.div`
   display: flex;
 `;
 
-const ImageContainer = styled.div<{ half?: boolean }>`
+const ImageContainer = styled.div`
   position: relative;
-  width: ${(props) => (props.half ? "40%" : "100%")};
+  width: 100%;
   height: 100%;
 `;

@@ -38,15 +38,9 @@ const InputContainer = styled.div`
     padding: 5px 20px;
     text-align: center;
     font-size: calc(30px + 0.5vw);
-    :lang(en) {
-      font-family: jimNightshadeRegular;
-      font-size: calc(25px + 0.7vw);
-    }
 
-    :lang(ch) {
-      font-family: guFengLiShu;
-      font-size: calc(30px + 0.7vw);
-    }
+    font-family: guFengLiShu;
+    font-size: calc(30px + 0.7vw);
 
     @media ${device.mobile} {
       justify-content: flex-start;

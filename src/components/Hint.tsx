@@ -17,10 +17,10 @@ const Container = styled.div`
   text-align: center;
 
   @media ${device.mobile} {
-    margin: 20px 10px;
+    margin: 20px 15px;
   }
 
   @media ${device.tablet} {
-    margin: 20px 10px;
+    margin: 20px 15px;
   }
 `;

@@ -179,7 +179,7 @@ export default function Home() {
 
         {app.divinationResult ? (
           <>
-            <Result>{app.divinationResult}</Result>
+            <Result className="fadeIn">{app.divinationResult}</Result>
             <Button onClick={() => restartDivination()}>{t("restart")}</Button>
           </>
         ) : null}
@@ -195,15 +195,8 @@ export default function Home() {
 
 const PageContainer = styled.main`
    {
-    :lang(en) {
-      font-family: jimNightshadeRegular;
-      font-size: calc(25px + 0.7vw);
-    }
-
-    :lang(ch) {
-      font-family: guFengLiShu;
-      font-size: calc(30px + 0.7vw);
-    }
+    font-family: guFengLiShu;
+    font-size: calc(30px + 0.7vw);
   }
 `;
 
@@ -238,7 +231,7 @@ const TitleContainer = styled.div`
   justify-content: center;
   filter: invert(9%) sepia(58%) saturate(5515%) hue-rotate(5deg) brightness(91%)
     contrast(106%);
-  opacity: 0.9;
+  opacity: 0.75;
   background: url("/border.png");
   background-size: 100% 100%;
 `;
