@@ -66,7 +66,6 @@ export class CoinCanvas {
   }
 
   animate(tframe: number) {
-    // TODO cancel animation frame
     const animationRequestId = window.requestAnimationFrame(
       this.animate.bind(this)
     );

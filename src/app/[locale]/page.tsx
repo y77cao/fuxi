@@ -39,8 +39,6 @@ export default function Home() {
 
   const app = useAppSelector((state: RootState) => state.app);
 
-  // todo:
-  // fix yao on mobile
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined = undefined;
     if (app.rounds.length >= 6) {
@@ -125,6 +123,10 @@ export default function Home() {
   const restartDivination = () => {
     setQuestion("");
     setPaused(false);
+
+    coinCanvas?.resize();
+    coinCanvas?.startAnimation();
+
     dispatch(restart());
   };
 
@@ -140,10 +142,9 @@ export default function Home() {
       </TitleContainer>
       <LocaleSwitcher />
       <MainContainer>
-        {!app.loading && !app.divinationResult ? (
-          <DivinationBoard>
-            <canvas id="coin-canvas" ref={canvasRef}></canvas>
-
+        <DivinationBoard>
+          <canvas id="coin-canvas" ref={canvasRef}></canvas>
+          {!app.loading && !app.divinationResult ? (
             <TurtleShell
               tossCoins={() => {
                 coinCanvas?.startToss();
@@ -157,8 +158,9 @@ export default function Home() {
                 if (!paused && !app.animating) setHint(t("hints.default"));
               }}
             />
-          </DivinationBoard>
-        ) : null}
+          ) : null}
+        </DivinationBoard>
+
         <HexagramContainer>
           <Hexagram
             isCurrent={true}
@@ -169,14 +171,12 @@ export default function Home() {
             results={app.rounds.map((r) => r.iChingResult.future)}
           />
         </HexagramContainer>
-
         <Hint hint={hint} />
         <InputContainer>
           {!app.loading && !app.divinationResult ? (
             <Input onChange={(e) => updateQuestion(e)} reff={inputRef} />
           ) : null}
         </InputContainer>
-
         {app.divinationResult ? (
           <>
             <Result className="fadeIn">{app.divinationResult}</Result>
