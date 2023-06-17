@@ -60,6 +60,7 @@ export const TurtleShell = ({
           msUserSelect: "none",
           userSelect: "none",
           touchAction: "none",
+          WebkitTouchCallout: "none",
         }}
       />
     </Container>
@@ -75,11 +76,12 @@ const Container = styled.div`
   margin: auto;
   width: 320px;
   height: 420px;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  touch-action: none;
+  -moz-user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  touch-action: none !important;
 
   &:hover {
     animation: shake 0.5s;
