@@ -40,7 +40,6 @@ export default function Home() {
   const app = useAppSelector((state: RootState) => state.app);
 
   // todo:
-  // title border as stamp
   // fade in result
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined = undefined;
@@ -130,7 +129,7 @@ export default function Home() {
   };
 
   return (
-    <main>
+    <PageContainer>
       <TitleContainer>
         <ImageContainer>
           <Image src="/zhou.png" alt="zhou" fill />
@@ -190,14 +189,28 @@ export default function Home() {
           </LoadingContainer>
         ) : null}
       </MainContainer>
-    </main>
+    </PageContainer>
   );
 }
 
+const PageContainer = styled.main`
+   {
+    :lang(en) {
+      font-family: jimNightshadeRegular;
+      font-size: calc(25px + 0.7vw);
+    }
+
+    :lang(ch) {
+      font-family: guFengLiShu;
+      font-size: calc(30px + 0.7vw);
+    }
+  }
+`;
+
 const ImageContainer = styled.div`
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 55px;
+  height: 105px;
 `;
 
 const LoadingContainer = styled.div`
@@ -226,6 +239,8 @@ const TitleContainer = styled.div`
   filter: invert(9%) sepia(58%) saturate(5515%) hue-rotate(5deg) brightness(91%)
     contrast(106%);
   opacity: 0.9;
+  background: url("/border.png");
+  background-size: 100% 100%;
 `;
 
 const MainContainer = styled.div`
@@ -235,16 +250,6 @@ const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  :lang(en) {
-    font-family: jimNightshadeRegular;
-    font-size: calc(25px + 0.7vw);
-  }
-
-  :lang(ch) {
-    font-family: guFengLiShu;
-    font-size: calc(30px + 0.7vw);
-  }
 
   @media ${device.mobile} {
     justify-content: flex-start;
@@ -323,14 +328,18 @@ const Result = styled.div`
   }
 `;
 
-const Button = styled.button`
-  padding: 20px;
+const Button = styled.div`
+  margin: 20px;
+  padding: 5px 20px;
   border: none;
   background: none;
-  color: #700a02;
+  filter: invert(9%) sepia(58%) saturate(5515%) hue-rotate(5deg) brightness(91%)
+    contrast(106%);
 
   &:hover {
     cursor: pointer;
-    color: #000;
   }
+
+  background: url("/border-horizontal.png");
+  background-size: 100% 100%;
 `;
