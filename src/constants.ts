@@ -4,7 +4,7 @@ export const ANIMATION_SPEED = 1000;
 export const COIN_ASSET_SIZE_LARGE = 128;
 export const COIN_ASSET_SIZE_SMALL = 64;
 
-export const ASSET_RESIZE_HEIGHT = 720;
+export const ASSET_RESIZE_HEIGHT = 800;
 
 export const loadingText: Record<string, string[]> = {
   en: [

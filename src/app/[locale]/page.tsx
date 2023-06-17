@@ -40,7 +40,7 @@ export default function Home() {
   const app = useAppSelector((state: RootState) => state.app);
 
   // todo:
-  // fade in result
+  // fix yao on mobile
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined = undefined;
     if (app.rounds.length >= 6) {

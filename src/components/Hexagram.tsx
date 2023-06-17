@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { randRange } from "@/utils";
 import styled from "styled-components";
 import { memo } from "react";
@@ -14,29 +13,21 @@ const Yao = ({ result }: { result: number }) => {
   if (result === -1) {
     return (
       <YaoContainer>
-        <ImageContainer>
-          <Image src={src} alt="yao" fill style={{ visibility: "hidden" }} />
-        </ImageContainer>
+        <ImageContainer src={src} hidden />
       </YaoContainer>
     );
   } else if (result === 0) {
     return (
       <YaoContainer className="fadeIn">
-        <ImageContainer>
-          <Image src={src} alt="yao" fill />
-        </ImageContainer>
-        <ImageContainer>
-          <Image src={src} alt="yao" fill />
-        </ImageContainer>
+        <ImageContainer half src={src} />
+        <ImageContainer half src={src} />
       </YaoContainer>
     );
   } else {
     // result === 1
     return (
       <YaoContainer className="fadeIn">
-        <ImageContainer>
-          <Image src={src} alt="yao" fill />
-        </ImageContainer>
+        <ImageContainer src={src} />
       </YaoContainer>
     );
   }
@@ -105,13 +96,27 @@ const HexagramContainer = styled.div`
 `;
 
 const YaoContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-`;
-
-const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+const ImageContainer = styled.div<{
+  half?: boolean;
+  src: string;
+  hidden?: boolean;
+}>`
+  position: relative;
+  width: ${({ half }) => (half ? "49%" : "100%")};
+  background: url(${({ src }) => src});
+  background-size: 100% 100%;
+  visibility: ${({ hidden }) => (hidden ? "hidden" : "visible")};
+  height: 100%;
+
+  // somehow 100% 100% not work for mobile safari wtf
+  @media ${device.mobile} {
+    background-size: cover;
+  }
 `;
