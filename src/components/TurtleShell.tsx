@@ -25,10 +25,7 @@ export const TurtleShell = ({
   };
   const toss = () => {
     // e.preventDefault();
-    console.log("toss");
     setShaking(false);
-    console.log(Date.now() - prevClickTs);
-    console.log(paused);
     if (Date.now() - prevClickTs < 500) return; // debounce
 
     if (paused) return;
@@ -44,14 +41,11 @@ export const TurtleShell = ({
         onMouseDown={onClick}
         onTouchStart={onClick}
         onTouchEnd={toss}
-        onTouchCancel={() => console.log("cancel")}
-        onTouchMove={() => console.log("move")}
         onMouseUp={toss}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onContextMenu={(e) => {
           e.preventDefault();
-          console.log("menu");
         }}
         className={shaking ? "shaking" : ""}
         style={{

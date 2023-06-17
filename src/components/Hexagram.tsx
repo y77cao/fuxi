@@ -74,9 +74,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+
+  width: 180px;
 
   @media ${device.mobile} {
+    width: 120px;
     margin 10px 0;
   }
 `;

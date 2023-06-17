@@ -22,7 +22,7 @@
       "011": "Two tails, one head. Unchanging Yin.",
       "111": "Three tails. Changing Yin."
     },
-    "restart": "Restart"
+    "restart": "RESTART"
   },
   "Hexagram": {
     "currentHexagram": "Current",

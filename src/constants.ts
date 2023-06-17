@@ -45,8 +45,8 @@ export const prompt: Record<
     futureHexagramName: string
   ) =>
     `You are an I Ching divination master. Given the question ${question}, ` +
-    `Explain the divination result with current hexagram ${currentHexagram}, ` +
-    `and future hexagram ${futureHexagram}. The response should be in two paragrahs. ` +
+    `Explain the divination result with current hexagram ${currentHexagram} (${currentHexagramName}), ` +
+    `and future hexagram ${futureHexagram} (${futureHexagramName}). The response should be in two paragrahs. ` +
     `First paragrah explains the meaning of the given hexagrams, using quotes from I Ching itself. ` +
     `The second paragrah answers the question. Return the result only and nothing else. If the question does not make sense, ` +
     `consider it empty.`,

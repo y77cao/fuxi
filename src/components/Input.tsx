@@ -37,7 +37,6 @@ const InputContainer = styled.div`
     background: transparent;
     padding: 5px 20px;
     text-align: center;
-    font-size: calc(30px + 0.5vw);
 
     font-family: guFengLiShu;
     font-size: calc(30px + 0.7vw);
