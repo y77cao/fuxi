@@ -21,7 +21,8 @@
       "011": "两枚反面向上，为少阴之象。记阴爻。",
       "111": "皆反面向上，为老阳之象。主卦阳爻，变卦阴爻。"
     },
-    "restart": "续问"
+    "restart": "续问",
+    "inAppBrowserMessage": "请在默认浏览器中打开以获取最佳体验。"
   },
   "Hexagram": {
     "currentHexagram": "主卦",

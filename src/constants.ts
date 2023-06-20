@@ -14,8 +14,6 @@ export const loadingText: Record<string, string[]> = {
     "Weaving the fabric of time and space...",
     '"From observing changes at the beginning, I have comprehended the signs of the future." — Hexagram 1, The Creative',
     '"By understanding the past, the present becomes clear." — Hexagram 2, The Receptive',
-    '"Events follow the laws of the cosmos. To understand these laws and act in accordance with them means to have control over one’s own fate." — Hexagram 50, The Caldron',
-    '"All beings stand side by side in incomprehensible diversity. This diversity can be made fruitful only by a decision that brings about inner peace." — Hexagram 58, The Joyous (Lake)',
   ],
   ch: [
     "请静候。",

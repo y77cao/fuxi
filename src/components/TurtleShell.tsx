@@ -33,30 +33,18 @@ export const TurtleShell = ({
   };
 
   return (
-    <Container>
-      <Image
-        fill
-        src="/turtle-shell.png"
-        alt="turtle shell"
-        onMouseDown={onClick}
-        onTouchStart={onClick}
-        onTouchEnd={toss}
-        onMouseUp={toss}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onContextMenu={(e) => {
-          e.preventDefault();
-        }}
-        className={shaking ? "shaking" : ""}
-        style={{
-          MozUserSelect: "none",
-          WebkitUserSelect: "none",
-          msUserSelect: "none",
-          userSelect: "none",
-          touchAction: "none",
-          WebkitTouchCallout: "none",
-        }}
-      />
+    <Container
+      onMouseDown={onClick}
+      onTouchStart={onClick}
+      onTouchEnd={toss}
+      onMouseUp={toss}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onContextMenu={(e) => {
+        e.preventDefault();
+      }}
+    >
+      <ImgContainer className={shaking ? "shaking" : ""}></ImgContainer>
     </Container>
   );
 };
@@ -86,4 +74,12 @@ const Container = styled.div`
     width: 160px;
     height: 210px;
   }
+`;
+
+const ImgContainer = styled.div`
+  width: 100%;
+  height: 100%;
+
+  background: url("/turtle-shell.png") no-repeat;
+  background-size: 100% 100%;s
 `;

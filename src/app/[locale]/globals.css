@@ -24,6 +24,12 @@ body {
   animation: fadeIn ease 2s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
+  -moz-user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  touch-action: none !important;
 }
 
 * {
@@ -34,6 +40,14 @@ body {
 main {
   height: 100%;
   background: url("/background.jpg") no-repeat center center / cover;
+}
+
+.loading {
+  font-family: guFengLiShu;
+  font-size: calc(30px + 0.7vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .shaking {

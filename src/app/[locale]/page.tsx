@@ -5,6 +5,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
+import InApp from "detect-inapp";
 
 import { OpenAIClient } from "@/clients/openai";
 import { CoinCanvas, State as CoinCanvasState } from "@/components/CoinCanvas";
@@ -130,18 +131,9 @@ export default function Home() {
     dispatch(restart());
   };
 
-  return (
-    <PageContainer>
-      <TitleContainer>
-        <ImageContainer>
-          <Image src="/zhou.png" alt="zhou" fill />
-        </ImageContainer>
-        <ImageContainer>
-          <Image src="/yi.png" alt="yi" fill />
-        </ImageContainer>
-      </TitleContainer>
-      <LocaleSwitcher />
-      <MainContainer>
+  const renderContent = () => {
+    return (
+      <>
         <DivinationBoard>
           <canvas id="coin-canvas" ref={canvasRef}></canvas>
           {!app.loading && !app.divinationResult ? (
@@ -188,7 +180,39 @@ export default function Home() {
             <Image src="/loading.gif" alt="loading" fill />
           </LoadingContainer>
         ) : null}
-      </MainContainer>
+      </>
+    );
+  };
+
+  const renderBrowserMessage = () => {
+    return (
+      <>
+        <div>{t("inAppBrowserMessage")}</div>
+      </>
+    );
+  };
+
+  const renderMain = () => {
+    const inApp = new InApp(
+      // @ts-ignore opera
+      navigator.userAgent || navigator.vendor || window?.opera
+    );
+
+    return !inApp.isInApp ? renderContent() : renderBrowserMessage();
+  };
+
+  return (
+    <PageContainer>
+      <TitleContainer>
+        <ImageContainer>
+          <Image src="/zhou.png" alt="zhou" fill />
+        </ImageContainer>
+        <ImageContainer>
+          <Image src="/yi.png" alt="yi" fill />
+        </ImageContainer>
+      </TitleContainer>
+      <LocaleSwitcher />
+      <MainContainer>{renderMain()}</MainContainer>
     </PageContainer>
   );
 }
