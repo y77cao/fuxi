@@ -3,6 +3,7 @@ import { Providers } from "@/redux/provider";
 import { notFound } from "next/navigation";
 
 import "./globals.css";
+import { GoogleAnalytics } from "./GoogleAnalytics";
 
 export const metadata = {
   title: "Fuxi",
@@ -33,6 +34,7 @@ export default async function RootLayout({
         name="viewport"
         content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no"
       ></meta>
+      <GoogleAnalytics GA_TRACKING_ID={process.env.NEXT_GA_TRACKING_ID} />
       <Providers>
         <body>
           <NextIntlClientProvider locale={locale} messages={messages}>
