@@ -34,6 +34,7 @@ export default function Home() {
   const [question, setQuestion] = useState("");
   const [coinCanvas, setCoinCanvas] = useState<CoinCanvas | null>(null);
   const [hint, setHint] = useState(t("hints.default"));
+  const [inApp, setInApp] = useState(false);
 
   const canvasRef = React.createRef<HTMLCanvasElement>();
   const inputRef = useRef<HTMLInputElement>(null); // uncontrolled input, stop re-render children
@@ -97,7 +98,12 @@ export default function Home() {
 
       const canvas = canvasRef.current as HTMLCanvasElement;
       const coinCanvas = new CoinCanvas(canvas);
+      const inApp = new InApp(
+        // @ts-ignore opera
+        navigator.userAgent || navigator.vendor || window?.opera
+      );
       setCoinCanvas(coinCanvas);
+      setInApp(inApp.isInApp());
     };
     preload();
   }, []);
@@ -193,12 +199,7 @@ export default function Home() {
   };
 
   const renderMain = () => {
-    const inApp = new InApp(
-      // @ts-ignore opera
-      navigator.userAgent || navigator.vendor || window?.opera
-    );
-
-    return !inApp.isInApp ? renderContent() : renderBrowserMessage();
+    return !inApp ? renderContent() : renderBrowserMessage();
   };
 
   return (
