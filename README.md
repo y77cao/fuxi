@@ -1,3 +1,10 @@
+# Fuxi
+GPT-powered IChing divination. 
+
+![fuxi-1](https://github.com/y77cao/fuxi/assets/16827269/7302aa14-318c-45cc-946d-c5a71f8384e5)
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
